@@ -2,42 +2,55 @@ const searchEngine = () => {
     const searchBox = document.getElementById('search-box');
     const searchText = searchBox.value;
     searchBox.value = '';
+    toggleSpinner('block');
+    toggleSearchResult('none');
     const url = `https://openlibrary.org/search.json?q=${searchText}`;
     fetch(url)
         .then(res => res.json())
         .then(data => loadBooks(data))
 }
 
+const toggleSpinner = displayToggle => {
+    document.getElementById('spinner').style.display = displayToggle;
+}
+const toggleSearchResult = displayToggle => {
+    document.getElementById('search-result').style.display = displayToggle;
+}
+
 const loadBooks = (data) => {
-    console.log(data);
     const bookList = data.docs
     /* Search Result Number */
     const searchResult = document.getElementById('search-result');
     searchResult.textContent = '';
 
     /* Search Field Validation */
-    const searchDiv = document.createElement('h6')
-    const nulSearchDiv = document.createElement('h6')
-    const noSearchResult = document.createElement('h6')
-    searchDiv.innerHTML = `<h6 class="text-center my-3">Search Result: ${data.num_found}</h6>`
-    nulSearchDiv.innerHTML = `<h6 class="text-center my-3">Please enter a book name</h6>`
-    noSearchResult.innerHTML = `<h6 class="text-center my-3">No Results Found</h6>`
+    const searchStatus = document.createElement('h6')
+    const emptySearchBox = document.createElement('h6')
+    const noResultsFound = document.createElement('h6')
+    searchStatus.innerHTML = `<h6 class="text-center my-3">Search Result: ${data.num_found}</h6>`
+    emptySearchBox.innerHTML = `<h6 class="text-center my-3">Please enter a book name</h6>`
+    noResultsFound.innerHTML = `<h6 class="text-center my-3">No Results Found</h6>`
+
     if (data.q === '') {
-        searchResult.appendChild(nulSearchDiv);
+        toggleSpinner('none');
+        toggleSearchResult('block');
+        searchResult.appendChild(emptySearchBox);/* Shows to enter book name */
     }
     else if (data.num_found === 0) {
-        searchResult.appendChild(noSearchResult);
+        toggleSpinner('none');
+        toggleSearchResult('block');
+        searchResult.appendChild(noResultsFound);/* Shows No Result found */
     }
     else {
-        /* Show Search Result Count */
-        searchResult.appendChild(searchDiv);
+        toggleSpinner('none');
+        toggleSearchResult('block');
+        searchResult.appendChild(searchStatus);/* Shows Search Result Count */
     }
 
     /* Show Books in Grid */
     const gridBooks = document.getElementById('grid-books');
     gridBooks.textContent = '';
     bookList.forEach(book => {
-        console.log(book);
         const newDiv = document.createElement('div')
         newDiv.classList.add('col')
         newDiv.innerHTML = `<div class="card h-100 shadow">
