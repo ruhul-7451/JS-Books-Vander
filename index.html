@@ -13,8 +13,26 @@
 
 <body>
     <header></header>
-    <main>
-        <h1>Hi, I am Books Vander</h1>
+    <main class="container my-5">
+        <h1 class="text-center my-3 text-primary">Books Vander</h1>
+        <div class="input-group mb-3 w-50 mx-auto">
+            <input id="search-box" type="text" class="form-control" placeholder="Enter Book Name">
+            <button onclick="searchEngine()" class="btn btn-outline-secondary" type="button"
+                id="button-search">Search</button>
+        </div>
+        <!-- Showing books in grid card -->
+        <div id="grid-books" class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                            additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
     <footer></footer>
 
